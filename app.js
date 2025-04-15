@@ -48,7 +48,7 @@ function sanitizeInput(input) {
     if (username === 'guest' && password === 'password') {
       req.session.user = username;
       res.redirect('/profile'); // Redirect to a dashboard or another page
-    } else if (username === 'admin' && password === 'password') {
+    } else if (username === 'admin' && password === 'password2') {
       req.session.user = username; 
       res.redirect('/admin')
     }
