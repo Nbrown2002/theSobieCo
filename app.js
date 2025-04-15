@@ -1,40 +1,79 @@
 const express = require('express')
-require('dotenv').config()
+// require('dotenv').config()
 const app = express()
-const shajs = require('sha.js')
+// const shajs = require('sha.js')
 const port = process.env.PORT || 3000
 const bodyParser = require('body-parser')
-const { ObjectId } = require('mongodb')
-const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri = process.env.MONGO_URI;
+// const { ObjectId } = require('mongodb')
+// const { MongoClient, ServerApiVersion } = require('mongodb');
+// const uri = process.env.MONGO_URI;
 app.set('view engine', 'ejs');
+const session = require('express-session');
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public'))
 
-const client = new MongoClient(uri, {
-    serverApi: {
-      version: ServerApiVersion.v1,
-      strict: true,
-      deprecationErrors: true,
-    }
-  });
+
+app.use(session({
+  secret: 'your-secret-key', // Replace with a secure secret key
+  resave: false,
+  saveUninitialized: true
+}));
+
+// const client = new MongoClient(uri, {
+//     serverApi: {
+//       version: ServerApiVersion.v1,
+//       strict: true,
+//       deprecationErrors: true,
+//     }
+//   });
   
-  const mongoCollection = client.db("nbsobie-profiledb").collection("nb-sobie-profile");
+  // const mongoCollection = client.db("nbsobie-profiledb").collection("nb-sobie-profile");
   
-  function initProfileData() {
-    mongoCollection.insertOne({
-      title: "this is blog title",
-      post: "this is the post"
-    });
-  }
+  // function initProfileData() {
+  //   mongoCollection.insertOne({
+  //     title: "this is blog title",
+  //     post: "this is the post"
+  //   });
+  // }
   
   app.get('/', async function (req, res) {
   
-    let results = await mongoCollection.find({}).toArray();
-    res.render('profile',
-      { profileData: results });
+    // let results = await mongoCollection.find({}).toArray();
+
+
+
+    res.render('login',
+      { profileData: 'results' });
   })
   
+  // Middleware to sanitize input
+function sanitizeInput(input) {
+  return input.trim().replace(/<[^>]*>?/gm, '');
+}
+
+  app.post('/authenticate', (req, res) => {
+    const username = sanitizeInput(req.body.uname);
+    const password = sanitizeInput(req.body.psw);
+    
+    console.log(username, password); 
+
+
+    // Example authentication logic (replace with your own logic)
+    if (username === 'admin' && password === 'password') {
+      req.session.user = username;
+      res.redirect('/profile'); // Redirect to a dashboard or another page
+    } else {
+      res.status(401).send('Invalid credentials');
+    }
+  });
+
+
+  app.get('/profile', (req, res) => {
+
+    res.render('profile', {user : req.session.user}); 
+  });
+
   app.post('/insert', async (req, res) => {
     let results = await mongoCollection.insertOne({
       title: req.body.title,
