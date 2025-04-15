@@ -20,22 +20,7 @@ app.use(session({
   saveUninitialized: true
 }));
 
-// const client = new MongoClient(uri, {
-//     serverApi: {
-//       version: ServerApiVersion.v1,
-//       strict: true,
-//       deprecationErrors: true,
-//     }
-//   });
-  
-  // const mongoCollection = client.db("nbsobie-profiledb").collection("nb-sobie-profile");
-  
-  // function initProfileData() {
-  //   mongoCollection.insertOne({
-  //     title: "this is blog title",
-  //     post: "this is the post"
-  //   });
-  // }
+
   
   app.get('/', async function (req, res) {
   
@@ -60,19 +45,46 @@ function sanitizeInput(input) {
 
 
     // Example authentication logic (replace with your own logic)
-    if (username === 'admin' && password === 'password') {
+    if (username === 'guest' && password === 'password') {
       req.session.user = username;
       res.redirect('/profile'); // Redirect to a dashboard or another page
-    } else {
+    } else if (username === 'admin' && password === 'password') {
+      req.session.user = username; 
+      res.redirect('/admin')
+    }
+    else {
       res.status(401).send('Invalid credentials');
     }
   });
 
 
-  app.get('/profile', (req, res) => {
+  app.get('/admin', (req, res) => {
+    res.render('admin', {user : req.session.user}); 
+  });
 
+  app.get('/profile', (req, res) => {
     res.render('profile', {user : req.session.user}); 
   });
+
+  app.get('/registration', (req, res) => { 
+    res.render('registration', {user : req.session.user}); 
+  })
+
+  app.get('/lost_password', (req, res) => { 
+    res.render('lost_password', {user : req.session.user}); 
+  })
+
+  app.get('/registrants', (req, res) => { 
+    res.render('registrants', {user : req.session.user}); 
+  })  
+
+  app.get('/login', (req, res) => { 
+    res.render('login', {user : req.session.user}); 
+  })  
+
+  app.get('/users', (req, res) => { 
+    res.render('users', {user : req.session.user}); 
+  })  
 
   app.post('/insert', async (req, res) => {
     let results = await mongoCollection.insertOne({

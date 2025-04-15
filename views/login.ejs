@@ -3,10 +3,9 @@
 <head> 
   <meta charset="UTF-8">
   <title> Log-In Page </title>
-</head>
 <body> 
 
-  <%=profileData %> 
+   
   <h1> Sobie Log-In Page </h1>
   <form action="/authenticate" method="post">
     <div class="imgcontainer">
@@ -24,11 +23,11 @@
         <input type="checkbox" checked="checked" name="remember"> Remember me
       </label>
     </div>
-  
+   <br>
     <div class="container" style="background-color:#f1f1f1">
-      <button type="button" class="cancelbtn">Cancel</button>
-      <span class="psw">Forgot <a href="#">password?</a></span>
+      <a href="/lost_password">Click Here if Forgotten Password</a>
     </div>
   </form>
 </body>
+</head>
 </html>
