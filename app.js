@@ -11,7 +11,8 @@ app.set('view engine', 'ejs');
 const session = require('express-session');
 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static(__dirname + '/public'))
+//app.use(express.static(__dirname + '/public'))
+app.use(express.static(__dirname + '/media'))
 
 
 app.use(session({
