@@ -86,6 +86,11 @@ function sanitizeInput(input) {
     res.render('users', {user : req.session.user}); 
   })  
 
+  app.get('/research', (req, res) => { 
+    res.render('research', {user : req.session.user}); 
+  })  
+
+
   app.post('/insert', async (req, res) => {
     let results = await mongoCollection.insertOne({
       title: req.body.title,
