@@ -1,18 +1,16 @@
 const express = require('express')
-// require('dotenv').config()
 const app = express()
-// const shajs = require('sha.js')
 const port = process.env.PORT || 3000
 const bodyParser = require('body-parser')
-// const { ObjectId } = require('mongodb')
-// const { MongoClient, ServerApiVersion } = require('mongodb');
-// const uri = process.env.MONGO_URI;
 app.set('view engine', 'ejs');
 const session = require('express-session');
 
 app.use(bodyParser.urlencoded({ extended: true }));
-//app.use(express.static(__dirname + '/public'))
 app.use(express.static(__dirname + '/media'))
+
+const { MongoClient, ServerApiVersion } = require('mongodb');
+const uri = "mongodb+srv://Sobie-Admin:Sobie123456789@cluster0.9qwxe.mongodb.net/?appName=Cluster0"//process.env.MONGO_URI;
+console.log(uri);
 
 
 app.use(session({
@@ -21,16 +19,25 @@ app.use(session({
   saveUninitialized: true
 }));
 
+const client = new MongoClient(uri, {
+  serverApi: {
+    version: ServerApiVersion.v1,
+    strict: true,
+    deprecationErrors: true,
+  }
+});
+
+
+const mongoCollection = client.db("Sobie").collection("Registrants");
+const mongoCollection2 = client.db("Sobie").collection("Users"); 
 
   
   app.get('/', async function (req, res) {
-  
-    // let results = await mongoCollection.find({}).toArray();
-
-
-
-    res.render('login',
-      { profileData: 'results' });
+   // let result = await mongoCollection.find({}).toArray();
+   // console.log(result);
+   // res.render('registrants',
+     // { profileData: result });
+    res.render('login', {user : req.session.user}); 
   })
   
   // Middleware to sanitize input
@@ -76,7 +83,10 @@ function sanitizeInput(input) {
   })
 
   app.get('/registrants', (req, res) => { 
-    res.render('registrants', {user : req.session.user}); 
+    let result = mongoCollection.find({}).toArray();
+    console.log(result);
+    res.render('registrants',
+    {user : req.session.user, profileData: result});
   })  
 
   app.get('/login', (req, res) => { 
@@ -100,9 +110,27 @@ function sanitizeInput(input) {
     res.redirect('/');
   });
   
+  app.post('/insert', async (req, res) => {
+    let result = await mongoCollection2.insertOne({
+      title: req.body.title,
+      post: req.body.post,
+    });
+    res.redirect('/');
+  });
   
   app.post('/delete', async function (req, res) {
     let result = await mongoCollection.findOneAndDelete(
+      {
+        "_id": new ObjectId(req.body.deleteId)
+      }
+    ).then(result => {
+      res.redirect('/');
+    })
+  
+  });
+
+  app.post('/delete', async function (req, res) {
+    let result = await mongoCollection2.findOneAndDelete(
       {
         "_id": new ObjectId(req.body.deleteId)
       }
@@ -127,5 +155,19 @@ function sanitizeInput(input) {
     })
   });
   
+  app.post('/update', async (req, res) => {
+    let result = await mongoCollection2.findOneAndUpdate(
+      { _id: ObjectId.createFromHexString(req.body.updateId) }, {
+      $set:
+      {
+        title: req.body.updateTitle,
+        post: req.body.updatePost
+      }
+    }
+    ).then(result => {
+      console.log(result);
+      res.redirect('/');
+    })
+  });
   
   app.listen(port, () => console.log(`server is running on ... localhost:${port}`));

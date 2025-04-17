@@ -1,9 +1,12 @@
 {
   "dependencies": {
     "body-parser": "^2.2.0",
+    "dotenv": "^16.5.0",
     "ejs": "^3.1.10",
+    "env": "^0.0.2",
     "express": "^5.1.0",
     "express-session": "^1.18.1",
+    "mongodb": "^6.15.0",
     "session": "^0.1.0"
   },
   "scripts": {
