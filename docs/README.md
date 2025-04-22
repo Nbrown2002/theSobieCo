@@ -1,4 +1,4 @@
-# theSobieCo Global ISSUE: <LOGIN> <DEV-LOVE>
+# theSobieCo Global ISSUE: LOGIN DEV-LOVE
 The Sobie Company DEVELOPMENT Platform 🪣
 Worked on by: Noah Brown and Brandon Smith
 Issue Referral: https://github.com/barrycumbie/theSobieCo/issues/16
