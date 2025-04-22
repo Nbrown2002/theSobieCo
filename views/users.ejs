@@ -10,6 +10,34 @@
 <body>
     <h1> Users Page (Admin Exclusive) </h1>
     <h2> <u> Current User List </u> </h2>
+    <form method="POST" action="insert/"> 
+        <input name="Username"> 
+        <input name="Password"> 
+        <input name="User_Status">
+        <button class="btn btn-primary" role="submit">New Registrant</button>
+      </form>
+    <% profileData.forEach(result=> { %>
+        <div class="col-md-8">
+  
+  
+          <form method="POST" action="update/">
+            <input name="updateUsername" value="<%= result.Username %>">
+            <input name="updatePassword" value="<%= result.Password %>">
+            <input name="updateUser_Status" value="<%= result.User_Status %>">
+            <input type="hidden" name="updateId" value="<%= result._id  %>">
+            <button class="btn btn-primary" role="submit"><i class="bi bi-pencil"></i>Update User</button>
+          </form>
+  
+  
+  
+          <form method="POST" action="delete/">
+            <input type="hidden" name="deleteId" value="<%=result._id %>">
+            <button class="btn btn-primary" role="submit"><i class="bi bi-trash3"></i>Delete User</button>
+          </form>
+        </div>
+        <% }); %>
+
+
     <a href="/admin" style="color:white">Return to Admin Page</a>
 </body>
 </head>
