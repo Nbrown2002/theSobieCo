@@ -17,6 +17,10 @@ body-parser": "^2.2.0",
         "mongodb": "^6.15.0",
         "session": "^0.1.0"
 
+User Story (user) : As a Sobie User, I want to be able to login to my profile via my email and password. In my profile, I wish to see my registration for events and manage my research
+
+User Story (admin) : As a Sobie Admin, I want to be able to access my Admin account and see the number of registrants for the Sobie Conference. Also, to see the number of Sobie Site Users. 
+
 ## Links to Documentation
 Access to Forked Repo: https://github.com/Nbrown2002/theSobieCo
 Access to word document: https://docs.google.com/document/d/1MucweTvwq8VKWowUa2ACdsO_QznAa33kT_Q7mLzO21Y/edit?usp=sharing
