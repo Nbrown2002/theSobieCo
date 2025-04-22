@@ -17,11 +17,13 @@ body-parser": "^2.2.0",
         "mongodb": "^6.15.0",
         "session": "^0.1.0"
 
-
+## Links to Documentation
+Access to Forked Repo: https://github.com/Nbrown2002/theSobieCo
+Access to word document: https://docs.google.com/document/d/1MucweTvwq8VKWowUa2ACdsO_QznAa33kT_Q7mLzO21Y/edit?usp=sharing
 
 https://github.com/barrycumbie/theSobieCo/wiki/Sobie-Co.-Memo:-SPRING-'25
 
-## 🐝 branches 
+### 🐝 branches 
 
 - `sobie2023` = old "scraped" front-end code (no .php stuff) from an old sobie year
 - 'main' = new version of profile ui, and access to different features for Sobie Users and Admins
