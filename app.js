@@ -101,6 +101,9 @@ function sanitizeInput(input) {
     res.render('research', {user : req.session.user}); 
   })  
 
+  app.get('/Help', (req, res) => { 
+    res.render('Help', {user : req.session.user});
+  })
 
   app.post('/insert', async (req, res) => {
     let results = await mongoCollection.insertOne({
@@ -112,8 +115,8 @@ function sanitizeInput(input) {
   
   app.post('/insert', async (req, res) => {
     let result = await mongoCollection2.insertOne({
-      title: req.body.title,
-      post: req.body.post,
+      Registrant_Name: req.body.Registrant_Name,
+      Registrant_Status: req.body.Registrant_Status,
     });
     res.redirect('/');
   });
@@ -145,8 +148,8 @@ function sanitizeInput(input) {
       { _id: ObjectId.createFromHexString(req.body.updateId) }, {
       $set:
       {
-        title: req.body.updateTitle,
-        post: req.body.updatePost
+        Registrant_Name: req.body.updateTitle,
+        Registrant_Status: req.body.updatePost
       }
     }
     ).then(result => {
@@ -170,4 +173,5 @@ function sanitizeInput(input) {
     })
   });
   
+
   app.listen(port, () => console.log(`server is running on ... localhost:${port}`));
